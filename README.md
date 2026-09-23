@@ -8,7 +8,7 @@ Use Node.js 20+ and a Gemini API key from [Google AI Studio](https://aistudio.go
 GEMINI_API_KEY=your_key_here npm start
 ```
 
-Open http://localhost:3000. You can alternatively set `OPENAI_API_KEY` to use OpenAI. If both are set, Gemini takes priority. The default Gemini model is `gemini-2.5-flash-lite`; override with `GEMINI_MODEL` if necessary. Set `PORT` for a different port.
+Open http://localhost:3000. You can alternatively set `OPENAI_API_KEY` to use OpenAI. If both are set, Gemini takes priority. The default Gemini model is `gemini-3.5-flash-lite`; override with `GEMINI_MODEL` if necessary. Set `PORT` for a different port.
 
 ## Render
 
