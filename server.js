@@ -43,7 +43,7 @@ const server = http.createServer(async (req, res) => {
         body:JSON.stringify(useGemini
           ? {system_instruction:{parts:[{text:instructions}]},contents:messages.map(m => ({role:m.role === 'assistant' ? 'model' : 'user',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:450}}
           : {model,instructions,input:messages.map(m => ({role:m.role,content:m.content})),max_output_tokens:450,store:false}),
-        signal:AbortSignal.timeout(25000)
+        signal:AbortSignal.timeout(60000)
       });
       const data = await upstream.json();
       if (!upstream.ok) {
@@ -64,7 +64,7 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, {answer:answer || 'I could not produce an answer. Please contact our technical team.'});
     } catch (error) {
       console.error('Chat error:', error.message);
-      return json(res, 500, {error:'Something went wrong. Please try again.'});
+      return json(res, error.name === 'TimeoutError' ? 504 : 500, {error:error.name === 'TimeoutError' ? 'The AI provider took too long to respond. Please try again.' : 'Something went wrong. Please try again.'});
     }
   }
   if (req.method !== 'GET' || !files[req.url]) return json(res, 404, {error:'Not found.'});
