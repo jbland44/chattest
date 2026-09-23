@@ -34,10 +34,10 @@ const server = http.createServer(async (req, res) => {
       // Broad starter questions need a useful answer without invented dimensions or a long intake form.
       const firstQuestion = messages.length === 1 ? messages[0].content.toLowerCase().trim() : '';
       if (/^(?:hi|hello|hey)[.!? ]*$/.test(firstQuestion)) return json(res, 200, {answer:'Hi. What tooling or machining question can I help with? A short description is enough to start.'});
-      if (firstQuestion.length < 95 && /\\b(?:machine )?vice\\b/.test(firstQuestion) && !/\\b(?:jaw|zero.point|five.axis|5.axis|size|width|model|gerardi)\\b/.test(firstQuestion)) {
+      if (firstQuestion.length < 95 && /\b(?:machine )?vice\b/.test(firstQuestion) && !/\b(?:jaw|zero.point|five.axis|5.axis|size|width|model|gerardi)\b/.test(firstQuestion)) {
         return json(res, 200, {answer:'Cutwel offers machine vices for different workholding needs. The best starting point depends on the job and how you want to set it up. Are you mainly looking to reduce setup time or clamp a particular workpiece?'});
       }
-      if (firstQuestion.length < 95 && /\\b(?:mill|milling|end mill|cutter)\\b/.test(firstQuestion) && /\\bsteel\\b/.test(firstQuestion) && !/\\b(?:rough|finish|slot|diameter|grade|stainless|speed|feed)\\b/.test(firstQuestion)) {
+      if (firstQuestion.length < 95 && /\b(?:mill|milling|end mill|cutter)\b/.test(firstQuestion) && /\bsteel\b/.test(firstQuestion) && !/\b(?:rough|finish|slot|diameter|grade|stainless|speed|feed)\b/.test(firstQuestion)) {
         return json(res, 200, {answer:'A carbide end mill intended for steel is a sensible starting point. The right type depends mainly on the cut. Are you roughing or finishing?'});
       }
 
