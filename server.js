@@ -50,7 +50,7 @@ const server = http.createServer(async (req, res) => {
   }
   if (req.method !== 'GET' || !files[req.url]) return json(res, 404, {error:'Not found.'});
   const name = files[req.url];
-  const body = await readFile(path.join(root, 'public', name));
+  const body = await readFile(path.join(root, name));
   res.writeHead(200, {'Content-Type':types[name.split('.').at(-1)],'X-Content-Type-Options':'nosniff'});
   res.end(body);
 });
