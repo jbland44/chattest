@@ -52,7 +52,7 @@ const server = http.createServer(async (req, res) => {
       }
       const answer = useGemini
         ? (data.choices?.[0]?.message?.content || '').trim()
-        : (data.output || []).filter(x => x.type === 'message').flatMap(x => x.content || []).filter(x => x.type === 'output_text').map(x => x.text).join('\\n').trim();
+        : (data.output || []).filter(x => x.type === 'message').flatMap(x => x.content || []).filter(x => x.type === 'output_text').map(x => x.text).join('\n').trim();
       return json(res, 200, {answer:answer || 'I could not produce an answer. Please contact our technical team.'});
     } catch (error) {
       console.error('Chat error:', error.message);
