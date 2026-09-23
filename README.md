@@ -8,7 +8,7 @@ Use Node.js 20+ and a Groq API key from [GroqCloud](https://console.groq.com/key
 GROQ_API_KEY=your_key_here npm start
 ```
 
-Open http://localhost:3000. You can alternatively set `GEMINI_API_KEY` to use Gemini or `OPENAI_API_KEY` to use OpenAI. Provider priority is Groq, then Gemini, then OpenAI. The default Groq model is `llama-3.3-70b-versatile`; override with `GROQ_MODEL` if needed. The default Gemini model is `gemini-3.1-flash-lite`; override with `GEMINI_MODEL` if necessary. Set `PORT` for a different port.
+Open http://localhost:3000. You can alternatively set `GEMINI_API_KEY` to use Gemini or `OPENAI_API_KEY` to use OpenAI. Provider priority is Groq, then Gemini, then OpenAI. The default Groq model is `openai/gpt-oss-20b`; override with `GROQ_MODEL` if needed. The default Gemini model is `gemini-3.1-flash-lite`; override with `GEMINI_MODEL` if necessary. Set `PORT` for a different port.
 
 ## Render
 
