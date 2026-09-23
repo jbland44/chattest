@@ -7,7 +7,7 @@ const root = path.dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT || 3000);
 const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
 const geminiModel = process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite';
-const groqModel = process.env.GROQ_MODEL || 'openai/gpt-oss-20b';
+const groqModel = 'openai/gpt-oss-20b';
 const knowledge = await readFile(path.join(root, 'knowledge.md'), 'utf8');
 const files = {'/':'index.html','/app.js':'app.js','/style.css':'style.css'};
 const types = {'html':'text/html; charset=utf-8','js':'text/javascript; charset=utf-8','css':'text/css; charset=utf-8'};
