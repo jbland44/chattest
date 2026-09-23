@@ -46,9 +46,15 @@ const server = http.createServer(async (req, res) => {
       const data = await upstream.json();
       if (!upstream.ok) {
         console.error('AI request failed:', upstream.status, data?.error?.message || 'unknown');
-        return json(res, upstream.status === 429 ? 429 : 502, {error:upstream.status === 429
-          ? 'The assistant has reached its current usage limit. Please try again later.'
-          : 'The assistant is temporarily unavailable. Please contact our technical team.'});
+        const provider = useGemini ? 'Gemini' : 'OpenAI';
+        const reason = upstream.status === 401 || upstream.status === 403
+          ? `${provider} rejected the API key or access to this model. Check the key and project in Render.`
+          : upstream.status === 429
+          ? `${provider} has reached its free-tier or rate limit. Try again later or check the provider dashboard.`
+          : upstream.status === 404
+          ? `${provider} could not find the configured model. Check the model name.`
+          : `${provider} request failed (HTTP ${upstream.status}). Check the Render logs for the provider's message.`;
+        return json(res, upstream.status === 429 ? 429 : 502, {error:reason});
       }
       const answer = useGemini
         ? (data.choices?.[0]?.message?.content || '').trim()
