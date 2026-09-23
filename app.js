@@ -34,17 +34,19 @@ async function ask(value) {
   append('user', question);
   input.value = '';
   history.push({role:'user', content:question});
-  const loading = append('assistant', 'Thinking…');
+  const loading = append('assistant', 'Finding an answer…');
+  const progress = setTimeout(() => { loading.querySelector('.bubble').textContent = 'Still working on this — thanks for waiting…'; }, 9000);
   try {
-    const response = await fetch('/api/chat', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history.slice(-12)})});
+    const response = await fetch('/api/chat', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history.slice(-8)}),signal:AbortSignal.timeout(70000)});
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || 'Unable to reach the assistant.');
     loading.querySelector('.bubble').textContent = data.answer;
     history.push({role:'assistant',content:data.answer});
   } catch (error) {
-    loading.querySelector('.bubble').textContent = error.message;
+    loading.querySelector('.bubble').textContent = error.name === 'TimeoutError' ? 'This is taking too long. Please try again or contact our technical team.' : error.message;
     history.pop();
   } finally {
+    clearTimeout(progress);
     busy = false;
     send.disabled = false;
     input.disabled = false;
