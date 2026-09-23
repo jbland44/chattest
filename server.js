@@ -6,7 +6,7 @@ import path from 'node:path';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const port = Number(process.env.PORT || 3000);
 const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
-const geminiModel = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
+const geminiModel = process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite';
 const knowledge = await readFile(path.join(root, 'knowledge.md'), 'utf8');
 const files = {'/':'index.html','/app.js':'app.js','/style.css':'style.css'};
 const types = {'html':'text/html; charset=utf-8','js':'text/javascript; charset=utf-8','css':'text/css; charset=utf-8'};
@@ -41,7 +41,7 @@ const server = http.createServer(async (req, res) => {
           ? {'x-goog-api-key':process.env.GEMINI_API_KEY,'Content-Type':'application/json'}
           : {'Authorization':`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},
         body:JSON.stringify(useGemini
-          ? {system_instruction:{parts:[{text:instructions}]},contents:messages.map(m => ({role:m.role === 'assistant' ? 'model' : 'user',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:450}}
+          ? {system_instruction:{parts:[{text:instructions}]},contents:messages.map(m => ({role:m.role === 'assistant' ? 'model' : 'user',parts:[{text:m.content}]})),generationConfig:{maxOutputTokens:300,thinkingConfig:{thinkingLevel:'MINIMAL'}}}
           : {model,instructions,input:messages.map(m => ({role:m.role,content:m.content})),max_output_tokens:450,store:false}),
         signal:AbortSignal.timeout(60000)
       });
